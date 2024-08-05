@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Announcements</title>
+</head>
+<body>
+<h1>Manage Announcements</h1>
+
+<form th:action="@{/admin/announcements}" method="post" enctype="multipart/form-data">
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" name="subject">
+    <label for="content">Content:</label>
+    <textarea id="content" name="content"></textarea>
+    <label for="validityDate">Validity Date:</label>
+    <input type="date" id="validityDate" name="validityDate">
+    <label for="image">Image:</label>
+    <input type="file" id="image" name="image">
+    <button type="submit">Save Announcement</button>
+</form>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+</form>
+</body>
+</html>

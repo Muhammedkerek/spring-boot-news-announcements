@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update News</title>
+</head>
+<body>
+<h1>Update News</h1>
+
+<!-- Form to update news item -->
+<form th:action="@{/news/update/{id}(id=${news.id})}" method="post">
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" name="subject" th:value="${news.subject}">
+    <label for="content">Content:</label>
+    <textarea id="content" name="content" th:text="${news.content}"></textarea>
+    <label for="validityDate">Validity Date:</label>
+    <input type="date" id="validityDate" name="validityDate" th:value="${news.validityDate}">
+    <label for="newsLink">News Link:</label>
+    <input type="url" id="newsLink" name="newsLink" th:value="${news.newsLink}">
+    <button type="submit">Update News</button>
+</form>
+
+<a href="/news">Back to News List</a>
+</body>
+</html>

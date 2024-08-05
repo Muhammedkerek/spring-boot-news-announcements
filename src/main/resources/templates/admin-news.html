@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage News</title>
+</head>
+<body>
+<h1>Manage News</h1>
+<!-- Add form for news entry/update/delete -->
+<form th:action="@{/admin/news}" method="post">
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" name="subject">
+    <label for="content">Content:</label>
+    <textarea id="content" name="content"></textarea>
+    <label for="validityDate">Validity Date:</label>
+    <input type="date" id="validityDate" name="validityDate">
+    <label for="newsLink">News Link:</label>
+    <input type="url" id="newsLink" name="newsLink">
+    <button type="submit">Save News</button>
+
+</form>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+</form>
+</body>
+</html>

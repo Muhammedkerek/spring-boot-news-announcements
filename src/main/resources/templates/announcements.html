@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All Announcements</title>
+</head>
+<body>
+<h1>All Announcements</h1>
+
+<!-- Display list of announcements -->
+<table>
+    <thead>
+    <tr>
+        <th>Subject</th>
+        <th>Content</th>
+        <th>Validity Date</th>
+        <th>Image</th>
+        <th>Actions</th>
+    </tr>
+    <style>
+
+        .announcement-image {
+            max-width: 300px;
+            max-height: 300px;
+            object-fit: cover;
+        }
+    </style>
+    </thead>
+    <tbody>
+    <tr th:each="announcement : ${announcementsList}">
+        <td th:text="${announcement.subject}"></td>
+        <td th:text="${announcement.content}"></td>
+        <td th:text="${announcement.validityDate}"></td>
+        <td>
+        <img th:src="@{${announcement.image}}" class="announcement-image">
+        </td>
+        <td>
+            <a th:href="@{/announcements/update/{id}(id=${announcement.id})}">Update</a>
+            <form th:action="@{/announcements/delete/{id}(id=${announcement.id})}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/admin">Back to Admin Page</a>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>All Announcements</title>
+    <title>User Announcements</title>
     <style>
         table {
             width: 100%;
@@ -31,19 +31,10 @@
             max-height: 300px;
             object-fit: cover;
         }
-
-        .news-link {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .news-link:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
-<h1>All Announcements</h1>
+<h1>User Announcements</h1>
 
 <!-- Display list of announcements -->
 <table>
@@ -53,7 +44,6 @@
         <th>Content</th>
         <th>Validity Date</th>
         <th>Image</th>
-        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -62,19 +52,14 @@
         <td th:text="${announcement.content}" style="padding-right: 20px;"></td> <!-- Space to the right -->
         <td th:text="${announcement.validityDate}" style="padding-right: 20px;"></td> <!-- Space to the right -->
         <td>
+            <!-- Updated the image source path -->
             <img th:src="@{${announcement.image}}" class="announcement-image" alt="Announcement Image">
-        </td>
-        <td>
-            <a th:href="@{/announcements/update/{id}(id=${announcement.id})}" style="margin-right: 10px;">Update</a>
-            <form th:action="@{/announcements/delete/{id}(id=${announcement.id})}" method="post" style="display:inline;">
-                <button type="submit">Delete</button>
-            </form>
         </td>
     </tr>
     </tbody>
 </table>
 
-<a href="/admin" style="display: block; margin: 20px auto; text-align: center;">Back to Admin Page</a>
+<a href="/user" style="display: block; margin: 20px auto; text-align: center;">Back to User Page</a>
 
 </body>
 </html>

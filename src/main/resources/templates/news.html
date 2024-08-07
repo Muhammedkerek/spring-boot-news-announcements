@@ -2,6 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>All News</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px; /* Vertical spacing between rows */
+            border: 1px solid #ddd;
+            background-color: #fff;
+            margin: 20px auto;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #fff;
+        }
+
+        .news-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .news-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 <h1>All News</h1>
@@ -19,12 +52,14 @@
     </thead>
     <tbody>
     <tr th:each="news : ${newsList}">
-        <td th:text="${news.subject}"></td>
-        <td th:text="${news.content}"></td>
-        <td th:text="${news.validityDate}"></td>
-        <td th:text="${news.newsLink}"></td>
+        <td th:text="${news.subject}" style="padding-right: 20px;"></td> <!-- Space to the right -->
+        <td th:text="${news.content}" style="padding-right: 20px;"></td> <!-- Space to the right -->
+        <td th:text="${news.validityDate}" style="padding-right: 20px;"></td> <!-- Space to the right -->
         <td>
-            <a th:href="@{/news/update/{id}(id=${news.id})}">Update</a>
+            <a th:href="${news.newsLink}" class="news-link" th:text="${news.newsLink}"></a>
+        </td>
+        <td>
+            <a th:href="@{/news/update/{id}(id=${news.id})}" style="margin-right: 10px;">Update</a>
             <form th:action="@{/admin/news/delete/{id}(id=${news.id})}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
@@ -33,6 +68,6 @@
     </tbody>
 </table>
 
-<a href="/admin">Back to Admin Page</a>
+<a href="/admin" style="display: block; margin: 20px auto; text-align: center;">Back to Admin Page</a>
 </body>
 </html>

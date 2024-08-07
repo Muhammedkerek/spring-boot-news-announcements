@@ -2,10 +2,12 @@ package news.example.news.Resources;
 
 
 import ch.qos.logback.core.model.Model;
+import news.example.news.Config.AnnouncementWebSocketHandler;
 import news.example.news.DOMAIN.Announcement;
 import news.example.news.DOMAIN.News;
 import news.example.news.Services.AnnouncementService;
 import news.example.news.Services.NewsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,9 @@ import java.util.List;
 public class AdminController {
     private final NewsService newsService;
     private final AnnouncementService announcementService;
+
+    @Autowired
+    private AnnouncementWebSocketHandler webSocketHandler;
 
     public AdminController(NewsService newsService, AnnouncementService announcementService) {
         this.newsService = newsService;
@@ -98,7 +103,13 @@ public class AdminController {
                                    @RequestParam("validityDate") String validityDateString,
                                    @RequestParam("image") MultipartFile imageFile) {
         LocalDate validityDate = LocalDate.parse(validityDateString);
-        announcementService.saveAnnouncement(subject, content, validityDate, imageFile);
+        Announcement announcement =   announcementService.saveAnnouncement(subject, content, validityDate, imageFile);
+        String announcementJson = String.format("{\"subject\":\"%s\",\"content\":\"%s\",\"validityDate\":\"%s\",\"image\":\"%s\"}",
+                announcement.getSubject(),
+                announcement.getContent(),
+                announcement.getValidityDate().toString(),
+                announcement.getImage()); // Update with your actual image path
+        webSocketHandler.sendAnnouncement(announcementJson);
         return "admin";
     }
     @GetMapping("/announcements/update/{id}")

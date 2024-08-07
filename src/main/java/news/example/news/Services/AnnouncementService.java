@@ -20,7 +20,7 @@ public class AnnouncementService {
         this.announcementRepository = announcementRepository;
     }
 
-    public void saveAnnouncement(String subject, String content, LocalDate validityDate, MultipartFile imageFile) {
+    public Announcement saveAnnouncement(String subject, String content, LocalDate validityDate, MultipartFile imageFile) {
         Announcement announcement = new Announcement();
         announcement.setSubject(subject);
         announcement.setContent(content);
@@ -44,7 +44,7 @@ public class AnnouncementService {
             }
         }
 
-        announcementRepository.save(announcement);
+       return announcementRepository.save(announcement);
     }
     public List<Announcement>listAllAnnouncements(){
         return announcementRepository.findAll();

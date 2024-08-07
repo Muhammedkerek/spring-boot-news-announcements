@@ -46,7 +46,7 @@
 <h1>All Announcements</h1>
 
 <!-- Display list of announcements -->
-<table>
+<table id="announcementsTable">
     <thead>
     <tr>
         <th>Subject</th>
@@ -58,9 +58,9 @@
     </thead>
     <tbody>
     <tr th:each="announcement : ${announcementsList}">
-        <td th:text="${announcement.subject}" style="padding-right: 20px;"></td> <!-- Space to the right -->
-        <td th:text="${announcement.content}" style="padding-right: 20px;"></td> <!-- Space to the right -->
-        <td th:text="${announcement.validityDate}" style="padding-right: 20px;"></td> <!-- Space to the right -->
+        <td th:text="${announcement.subject}" style="padding-right: 20px;"></td>
+        <td th:text="${announcement.content}" style="padding-right: 20px;"></td>
+        <td th:text="${announcement.validityDate}" style="padding-right: 20px;"></td>
         <td>
             <img th:src="@{${announcement.image}}" class="announcement-image" alt="Announcement Image">
         </td>
@@ -75,6 +75,45 @@
 </table>
 
 <a href="/admin" style="display: block; margin: 20px auto; text-align: center;">Back to Admin Page</a>
+
+<script>
+    const socket = new WebSocket('ws://localhost:8080/ws/announcements');
+    socket.onopen = function(event) {
+        console.log('WebSocket connection established');
+    };
+
+    socket.onmessage = function(event) {
+        console.log('Received message:', event.data);
+    };
+
+    socket.onerror = function(error) {
+        console.log('WebSocket error:', error);
+    };
+
+    socket.onclose = function(event) {
+        console.log('WebSocket connection closed');
+    };
+
+    socket.onmessage = function(event) {
+        const announcement = JSON.parse(event.data);
+        const table = document.getElementById('announcementsTable').getElementsByTagName('tbody')[0];
+
+        // Create a new row
+        const row = table.insertRow();
+        row.innerHTML = `
+            <td style="padding-right: 20px;">${announcement.subject}</td>
+            <td style="padding-right: 20px;">${announcement.content}</td>
+            <td style="padding-right: 20px;">${announcement.validityDate}</td>
+            <td><img src="${announcement.image}" class="announcement-image" alt="Announcement Image"></td>
+            <td>
+                <a href="/announcements/update/${announcement.id}" style="margin-right: 10px;">Update</a>
+                <form action="/announcements/delete/${announcement.id}" method="post" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        `;
+    };
+</script>
 
 </body>
 </html>
